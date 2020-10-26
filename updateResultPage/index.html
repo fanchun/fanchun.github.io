@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie6 lte9 lte8 lte7" lang="zh-tw"><![endif]-->
+<!--[if IE 8]><html class="ie8 lte9 lte8" lang="zh-tw"><![endif]-->
+<!--[if IE 9]><html class="ie9 lte9" lang="zh-tw"><![endif]-->
+<!--[if IE 7]><html class="ie7 lte9 lte8 lte7" lang="zh-tw"><![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8) | !(IE 9)  ]><!-->
+<html lang="zh-tw">
+<!--<![endif]-->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable:no">
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+
+    <title>Update Result</title>
+    <style type="text/css">
+        .btn {
+            margin-bottom: 10px;
+        }
+        p, form {
+          margin-top: 20px;
+        }
+    </style>
+</head>
+    <h1>Update Result</h1>
+<body>
+    <div class="card">
+        <div class="card-body">
+            <h3>基本</h3>
+            <button type="button" class="btn btn-success" onclick="setStatusInfoTextarea('1', 'success');;return false;">Success</button>
+            <button type="button" class="btn btn-warning" onclick="setStatusInfoTextarea('-1', '無需進行補完/更新資料 or updated already');return false;">Updated already</button>
+            <button type="button" class="btn btn-warning" onclick="setStatusInfoTextarea('-99', '補完/更新資料失敗(錯誤) or update fail unknow');return false;">Update fail/ Unknow</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Result params</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="16"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" id="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script>
+        function responseNativeResult(params) {
+            params = (typeof params !== 'undefined') ? params : "";
+            console.log(params);
+
+            // for Android
+            try {
+                if (JSInterface) JSInterface.updateOrcaMembershipResult(params);
+            } catch (err) {
+            }
+
+            // for iOS
+            try {
+                window.webkit.messageHandlers.updateOrcaMembershipResult.postMessage(params);
+            } catch (err) {
+            }
+        }
+
+        function setStatusInfoTextarea(rtnCode, rtnMsg) {
+            var params = JSON.parse($('#exampleFormControlTextarea1').val())
+            params.RtnCode = rtnCode;
+            params.RtnMsg = rtnMsg;
+            $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
+        }
+
+        $(document).ready(function() {
+            var defaultParams = {
+              "RtnCode": "1", 
+              "RtnMsg": 'success'
+            };
+            $('#exampleFormControlTextarea1').text(JSON.stringify(defaultParams, undefined, 4));
+            $("#submit").click(function() {
+                responseNativeResult($('#exampleFormControlTextarea1').val());
+            })
+        });
+    </script>
+</body>
+
+</html>
