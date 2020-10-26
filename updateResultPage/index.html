@@ -31,10 +31,28 @@
 <body>
     <div class="card">
         <div class="card-body">
-            <h3>基本</h3>
+            <h3>Basic</h3>
             <button type="button" class="btn btn-success" onclick="setStatusInfoTextarea('1', 'success');;return false;">Success</button>
             <button type="button" class="btn btn-warning" onclick="setStatusInfoTextarea('-1', '無需進行補完/更新資料 or updated already');return false;">Updated already</button>
             <button type="button" class="btn btn-warning" onclick="setStatusInfoTextarea('-99', '補完/更新資料失敗(錯誤) or update fail unknow');return false;">Update fail/ Unknow</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3>Entry point</h3>
+            <p>Selection</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option1" onclick="setEntryPointTextarea('is_editProfile_page');"> 小樹會員資料
+                </label>
+            </div>
+
+            <p>Please enter entry point text.</p>
+            <div class="form-group">
+                <textarea class="form-control" id="entryPointTextarea1" rows="1"></textarea>
+             </div>
+            <button type="button" class="btn btn-primary" id="submitEntryPoint">Enter</button>
         </div>
     </div>
 
@@ -76,12 +94,28 @@
             $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
         }
 
+        function setEntryPointTextarea(entryPoint) {
+            var params = JSON.parse($('#exampleFormControlTextarea1').val())
+            params.Query = {
+                "kJoinOrcaEntryPointKey": entryPoint
+            };          
+            $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
+        }
+
         $(document).ready(function() {
             var defaultParams = {
               "RtnCode": "1", 
-              "RtnMsg": 'success'
+              "RtnMsg": 'success',
+              "Query": {
+                "kJoinOrcaEntryPointKey": "is_editProfile_page"
+              }
             };
             $('#exampleFormControlTextarea1').text(JSON.stringify(defaultParams, undefined, 4));
+
+            $("#submitEntryPoint").click(function() {
+                setEntryPointTextarea($('#entryPointTextarea1').val());
+            })
+
             $("#submit").click(function() {
                 responseNativeResult($('#exampleFormControlTextarea1').val());
             })
