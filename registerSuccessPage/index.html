@@ -69,8 +69,9 @@
         }
 
         function putEvent(params) {
-            // for Android
             console.log(params);
+
+            // for Android
             try {
                 if (JSInterface) JSInterface.putEventAssist(params);
             } catch (err) {}
@@ -82,16 +83,18 @@
         }
 
         function viewClose(string) {
-            // for Android
             console.log(string);
-            try {
-                if (JSInterface) JSInterface.viewClose(string);
-            } catch (err) {}
+            window.close();
+            
+            // for Android
+            // try {
+            //     if (JSInterface) JSInterface.viewClose(string);
+            // } catch (err) {}
 
-            // for iOS
-            try {
-                window.webkit.messageHandlers.viewClose.postMessage(string);
-            } catch (err) {}
+            // // for iOS
+            // try {
+            //     window.webkit.messageHandlers.viewClose.postMessage(string);
+            // } catch (err) {}
         }
 
     </script>
