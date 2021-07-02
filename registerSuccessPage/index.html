@@ -40,7 +40,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h3>Opne WebView</h3>
+                <h3>Open WebView</h3>
                 <button type="button" class="btn btn-success" onclick="openViewEvent();">Open</button>
             </div>
         </div>
@@ -105,25 +105,21 @@
         }
 
         function openViewEvent() {
-            var params = {
-                "url": "https://fanchun.github.io/viewClose/",
-                "navType": "4",
-                "navTitle": "Push new page."
-            }
-            viewOpen(params)
+            var jsonString = "{\"url\":\"https:\/\/fanchun.github.io\/viewClose\/\",\"navType\":\"4\",\"navTitle\":\"Push new page.\"}"
+            viewOpen(jsonString)
         }
 
-        function viewOpen(params) {
-            console.log(params);
+        function viewOpen(string) {
+            console.log(string);
 
             // for Android
             try {
-                if (JSInterface) JSInterface.viewOpen(params);
+                if (JSInterface) JSInterface.viewOpen(string);
             } catch (err) {}
 
             // for iOS
             try {
-                window.webkit.messageHandlers.viewOpen.postMessage(params);
+                window.webkit.messageHandlers.viewOpen.postMessage(string);
             } catch (err) {}
         }
 
