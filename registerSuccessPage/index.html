@@ -84,17 +84,17 @@
 
         function viewClose(string) {
             console.log(string);
-            window.close();
+            //window.close();
             
-            // for Android
-            // try {
-            //     if (JSInterface) JSInterface.viewClose(string);
-            // } catch (err) {}
+            for Android
+            try {
+                if (JSInterface) JSInterface.viewClose(string);
+            } catch (err) {}
 
-            // // for iOS
-            // try {
-            //     window.webkit.messageHandlers.viewClose.postMessage(string);
-            // } catch (err) {}
+            // for iOS
+            try {
+                window.webkit.messageHandlers.viewClose.postMessage(string);
+            } catch (err) {}
         }
 
     </script>
