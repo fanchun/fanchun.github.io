@@ -40,6 +40,13 @@
 
         <div class="card">
             <div class="card-body">
+                <h3>Opne WebView</h3>
+                <button type="button" class="btn btn-success" onclick="openViewEvent();">Open</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
                 <h3>Close WebView</h3>
                 <button type="button" class="btn btn-success" onclick="viewClose('test_view_close');">CLOSE</button>
             </div>
@@ -94,6 +101,29 @@
             // for iOS
             try {
                 window.webkit.messageHandlers.viewClose.postMessage(string);
+            } catch (err) {}
+        }
+
+        function openViewEvent() {
+            var params = {
+                "url": "https://fanchun.github.io/viewClose/",
+                "navType": "4",
+                "navTitle": "Push new page."
+            }
+            viewOpen(params)
+        }
+
+        function viewOpen(params) {
+            console.log(params);
+
+            // for Android
+            try {
+                if (JSInterface) JSInterface.viewOpen(params);
+            } catch (err) {}
+
+            // for iOS
+            try {
+                window.webkit.messageHandlers.viewOpen.postMessage(params);
             } catch (err) {}
         }
 
