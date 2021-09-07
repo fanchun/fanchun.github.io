@@ -77,18 +77,18 @@
 
         function putEvent(params) {
             console.log(params);
+            
+            var jsonString = JSON.stringify(params);
+            console.log(jsonString);
 
             // for Android
             try {
-                var jsonString = JSON.stringify(params);
-                console.log("JSON.stringify for Android: ");
-                console.log(jsonString);
                 if (JSInterface) JSInterface.putEventAssist(jsonString);
             } catch (err) {}
 
             // for iOS
             try {
-                window.webkit.messageHandlers.putEventAssist.postMessage(params);
+                window.webkit.messageHandlers.putEventAssist.postMessage(jsonString);
             } catch (err) {}
         }
 
