@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<h1>註冊成功</h1>
+<h1>測試 JavaScript callbacks</h1>
 
 <body>
     <div class="container-fluid">
@@ -49,6 +49,13 @@
             <div class="card-body">
                 <h3>Close WebView</h3>
                 <button type="button" class="btn btn-success" onclick="viewClose('test_view_close');">CLOSE</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3>Test Event Tracking</h3>
+                <button type="button" class="btn btn-success" onclick="sendEventTracking();">EVENT TRACKING</button>
             </div>
         </div>
 
@@ -123,6 +130,36 @@
             // for iOS
             try {
                 window.webkit.messageHandlers.viewOpen.postMessage(string);
+            } catch (err) {}
+        }
+      
+        function sendEventTracking() {
+            var params = {
+                "type": "ga4",
+                "name": "screen_view",
+                "data": {
+                    "screen_name": "test_javascript_screen_name",
+                    "page_category": "test_javascript_page_category",
+                    "user_env": "webview"
+                }
+            }
+            eventTracking(params)
+        }
+
+        function eventTracking(params) {
+            console.log(params);
+            
+            var jsonString = JSON.stringify(params);
+            console.log(jsonString);
+
+            // for Android
+            try {
+                if (JSInterface) JSInterface.eventTracking(jsonString);
+            } catch (err) {}
+
+            // for iOS
+            try {
+                window.webkit.messageHandlers.eventTracking.postMessage(jsonString);
             } catch (err) {}
         }
 
